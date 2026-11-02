@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Ayam Gepuk Pedas: Cyber-Urban Maqasid Edition</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Arcade & Cyber Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Press+Start+2P&family=Rajdhani:wght@500;600;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cyber-neon: #06b6d4;
+            --cyber-pink: #ec4899;
+            --cyber-yellow: #facc15;
+            --cyber-red: #ef4444;
+            --cyber-dark: #070a12;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--cyber-dark);
+            color: #ffffff;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .font-cyber {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .font-arcade {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .font-teko {
+            font-family: 'Teko', sans-serif;
+            letter-spacing: 1.5px;
+        }
+
+        /* Auto-Uppercase Inputs */
+        .uppercase-input {
+            text-transform: uppercase;
+        }
+
+        /* Cyber Neon Card & Borders */
+        .cyber-box {
+            background: rgba(15, 23, 42, 0.95);
+            border: 3px solid #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4), inset 0 0 15px rgba(6, 182, 212, 0.2);
+            border-radius: 16px;
+        }
+
+        .cyber-box-red {
+            background: rgba(24, 15, 26, 0.95);
+            border: 3px solid #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4), inset 0 0 15px rgba(239, 68, 68, 0.2);
+            border-radius: 16px;
+        }
+
+        .cyber-box-yellow {
+            background: rgba(24, 23, 15, 0.95);
+            border: 3px solid #facc15;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+            border-radius: 16px;
+        }
+
+        /* Neon Glow Text */
+        .glow-cyan {
+            text-shadow: 0 0 8px #06b6d4, 0 0 20px #06b6d4;
+        }
+
+        .glow-red {
+            text-shadow: 0 0 8px #ef4444, 0 0 20px #ef4444;
+        }
+
+        .glow-yellow {
+            text-shadow: 0 0 8px #facc15, 0 0 20px #facc15;
+        }
+
+        /* Button Animations */
+        .btn-cyber {
+            transition: all 0.15s ease-in-out;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-cyber:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.8);
+        }
+
+        .btn-cyber:active {
+            transform: scale(0.98);
+        }
+
+        /* Shake & Flash Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-12px); }
+            40%, 80% { transform: translateX(12px); }
+        }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-pulse-fast {
+            animation: pulse-glow 0.8s infinite;
+        }
+
+        /* Print Settings */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: 2px solid #000 !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 bg-slate-950">
+
+    <!-- MAIN GAME CONTAINER FRAME -->
+    <div class="w-full max-w-5xl bg-slate-900 rounded-3xl border-4 border-cyan-500/80 shadow-[0_0_40px_rgba(6,182,212,0.3)] overflow-hidden relative flex flex-col min-h-[660px]">
+
+        <!-- TOP CYBER HUD DISPLAY BAR -->
+        <header id="game-hud" class="hidden bg-slate-950 border-b-2 border-cyan-500/50 p-3 text-white font-cyber text-xs sm:text-sm no-print z-20">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 items-center text-center">
+                
+                <!-- Player Info -->
+                <div class="text-left flex items-center gap-2 md:col-span-1">
+                    <span class="text-2xl">🏃‍♂️</span>
+                    <div>
+                        <span id="hud-name" class="text-cyan-400 font-bold block truncate max-w-[120px] uppercase">PELAJAR</span>
+                        <span id="hud-class" class="text-slate-400 text-[10px] block uppercase">KELAS</span>
+                    </div>
+                </div>
+
+                <!-- Timer (5 Minit Limit) -->
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-red-500/60">
+                    <span class="text-slate-400 text-[9px] font-arcade block">MASA TINGGAL</span>
+                    <span id="hud-timer" class="text-red-400 font-bold text-sm sm:text-base glow-red font-mono">05:00</span>
+                </div>
+
+                <!-- Checkpoints Unlocked -->
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-cyan-500/60">
+                    <span class="text-slate-400 text-[9px] font-arcade block">CHECKPOINT</span>
+                    <span id="hud-cp" class="text-cyan-300 font-bold text-sm sm:text-base glow-cyan">0 / 20</span>
+                </div>
+
+                <!-- Gepuk Coins (Markah) -->
+                <div class="bg-slate-900/90 px-3 py-1.5 rounded-xl border border-yellow-500/60">
+                    <span class="text-slate-400 text-[9px] font-arcade block">DUIT GEPUK (MARKAH)</span>
+                    <span id="hud-score" class="text-yellow-400 font-bold text-sm sm:text-base glow-yellow">🪙 0</span>
+                </div>
+
+                <!-- Sound Button -->
+                <div class="text-right flex items-center justify-end gap-2 md:col-span-1">
+                    <button id="btn-sound" onclick="toggleSound()" class="bg-slate-800 hover:bg-slate-700 p-2 rounded-xl text-cyan-400 border border-cyan-500/50 text-base" title="Sound ON/OFF">
+                        🔊
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 1. SKRIN BORANG PENDAFTARAN (CYBER-URBAN START) -->
+        <section id="screen-start" class="p-6 sm:p-10 flex flex-col items-center justify-center text-center min-h-[620px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black relative overflow-hidden my-auto">
+            
+            <div class="z-10 max-w-xl w-full">
+                <!-- Title Banner -->
+                <div class="mb-6">
+                    <span class="bg-cyan-500 text-slate-950 font-arcade text-[10px] sm:text-xs px-3 py-1 rounded-full uppercase tracking-widest font-bold shadow-[0_0_10px_#06b6d4] inline-block mb-3">
+                        Cyber-Urban Isometric Edition
+                    </span>
+                    <h1 class="font-cyber text-3xl sm:text-5xl text-cyan-400 glow-cyan tracking-wider leading-none uppercase font-extrabold">
+                        MISI AYAM GEPUK
+                    </h1>
+                    <h2 class="font-teko text-2xl sm:text-3xl text-yellow-400 font-bold mt-1 tracking-widest">
+                        ⚡ KEMBARA MAQASID SYARIAH (20 CHECKPOINT) ⚡
+                    </h2>
+                </div>
+
+                <!-- Form Card -->
+                <div class="cyber-box p-6 text-left space-y-4">
+
+                    <!-- Sinopsis Misi -->
+                    <div class="p-3.5 bg-slate-950/90 rounded-xl border border-yellow-500/50 text-xs text-slate-300 font-sans">
+                        <div class="text-yellow-400 font-cyber font-bold text-xs flex items-center gap-1 mb-1">
+                            <span>📖 SINOPSIS MISI:</span>
+                        </div>
+                        <p class="text-slate-200 leading-relaxed">
+                            Jam 1:00 tengah hari di Kota Cyber-Urban, perut anda berbunyi amat nyaring selepas kuliah! Restoran <strong>Ayam Gepuk Cyber Level 100</strong> hanya dibuka untuk tempoh singkat dan stok ayam sangat terhad. Bantu watak pelajar anda berlari pantas melintasi lorong siber, mengelak halangan, dan menangkap 🔑 <strong>Cyber G-Coin</strong> untuk menjawab cabaran Maqasid Syariah demi mengumpul Duit Gepuk!
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="input-student-name" class="block text-xs font-arcade text-cyan-400 mb-1">NAMA PELAJAR (AUTO-CAPS):</label>
+                        <input type="text" id="input-student-name" placeholder="CONTOH: FARHAN ABDULLAH" 
+                               class="w-full px-4 py-3 bg-slate-950 border-2 border-cyan-500/70 rounded-xl text-white font-bold text-sm focus:outline-none focus:border-yellow-400 uppercase-input transition-all" 
+                               autocomplete="off" required />
+                    </div>
+
+                    <div>
+                        <label for="input-student-class" class="block text-xs font-arcade text-cyan-400 mb-1">KOD KELAS / KUMPULAN:</label>
+                        <input type="text" id="input-student-class" placeholder="CONTOH: CS1431A" 
+                               class="w-full px-4 py-3 bg-slate-950 border-2 border-cyan-500/70 rounded-xl text-white font-bold text-sm focus:outline-none focus:border-yellow-400 uppercase-input transition-all" 
+                               autocomplete="off" required />
+                    </div>
+
+                    <!-- Cyber Briefing / Impact Rules -->
+                    <div class="p-3.5 bg-slate-950/90 rounded-xl border border-cyan-500/40 text-xs text-slate-300 space-y-1.5 font-sans">
+                        <div class="text-yellow-400 font-cyber font-bold text-xs flex items-center gap-1">
+                            <span>🎮 IMPLIKASI & PERATURAN PERMAINAN:</span>
+                        </div>
+                        <p class="text-cyan-200">• <strong class="text-yellow-400">Had Masa:</strong> 5 Minit (300s) untuk habiskan 20 Checkpoint.</p>
+                        <p class="text-cyan-200">• <strong class="text-yellow-400">Pening 2 Saat:</strong> Terlanggar halangan = Watak pening 😵 & terkunci 2 saat!</p>
+                        <p class="text-cyan-200">• <strong class="text-yellow-400">Cari Coin Checkpoint:</strong> Lari & tangkap 🔑 <strong>Cyber G-Coin</strong> untuk buka soalan!</p>
+                        <p class="text-cyan-200">• <strong class="text-green-400">Jawapan Betul (+5 Duit Gepuk)</strong> | <strong class="text-red-400">Jawapan Salah (-10 Penalti Duit)</strong>.</p>
+                        <p class="text-cyan-200">• Gunakan Duit Gepuk yang dikumpul di akhir larian untuk **Membeli Ayam Gepuk**!</p>
+                    </div>
+
+                    <!-- Start Button -->
+                    <button id="btn-start" onclick="goToBriefing()" disabled
+                            class="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:bg-slate-800 disabled:opacity-40 text-white font-cyber text-lg sm:text-xl rounded-xl border-2 border-cyan-300 btn-cyber cursor-pointer uppercase tracking-wider font-bold">
+                        MULA KEMBARA CYBER ▶
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SKRIN MISSION STORY BRIEFING -->
+        <section id="screen-briefing" class="hidden p-6 sm:p-10 flex flex-col items-center justify-center text-center min-h-[620px] bg-slate-950 my-auto">
+            <div class="max-w-xl w-full cyber-box-red p-6 sm:p-8 space-y-5">
+                <div class="flex justify-center text-6xl animate-bounce">
+                    🍗🏙️
+                </div>
+                
+                <h2 class="font-cyber text-2xl sm:text-3xl text-yellow-400 tracking-wide glow-yellow uppercase">
+                    ARAHAN MISI: "CYBER GEPUK RUN"
+                </h2>
+
+                <div class="text-left text-sm sm:text-base text-slate-200 font-sans leading-relaxed space-y-3 bg-slate-950/80 p-4 rounded-xl border border-red-500/40">
+                    <p>
+                        <strong class="text-cyan-400">Jam 1:00 Tengah Hari (Kota Cyber-Urban):</strong> Perut anda berbunyi amat nyaring selepas kuliah! Kedai <span class="text-red-400 font-bold">Ayam Gepuk Cyber Level 100</span> hanya buka untuk tempoh singkat!
+                    </p>
+                    <p>
+                        Stok ayam terhad! Anda perlu berlari mengelak **Drone Halangan, Kon Neon & Tong Cyber**.
+                    </p>
+                    <p class="text-yellow-300 font-bold">
+                        🔑 JANGAN HANYA LARI! Cari dan tangkap 20 keping **Cyber G-Coin** yang terapung di litar untuk membuka Soalan Ujian Maqasid Syariah. Setiap jawapan betul menambah modal **+5 Duit Gepuk** anda untuk beli ayam nanti!
+                    </p>
+                </div>
+
+                <button onclick="startGameRunner()" class="w-full py-4 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-cyber text-xl sm:text-2xl rounded-xl border-2 border-white btn-cyber font-extrabold uppercase">
+                    MULAKAN LARIAN SEKARANG! 🏃‍♂️💨
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. SKRIN CANVAS ACTION RUNNER (ISOMETRIC CANVAS) -->
+        <section id="screen-game" class="hidden flex flex-col items-center bg-slate-950 p-2 sm:p-4 relative">
+            
+            <!-- Distance & Location Bar -->
+            <div class="w-full flex justify-between items-center text-xs font-cyber font-bold mb-2 px-1">
+                <span id="stage-location-tag" class="text-cyan-400 bg-slate-900 px-3 py-1 rounded-full border border-cyan-500/40">
+                    📍 FASA 1: LORONG CYBER KAMPUS
+                </span>
+                <span class="text-yellow-400 font-mono">
+                    COIN TERKUMPUL: <span id="coins-caught-count" class="text-cyan-300">0 / 20</span>
+                </span>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="w-full relative bg-slate-950 rounded-2xl overflow-hidden border-4 border-cyan-500/80 shadow-[0_0_30px_rgba(6,182,212,0.3)] mb-3" style="height: 340px;">
+                <canvas id="runner-canvas" width="850" height="340" class="w-full h-full block"></canvas>
+
+                <!-- Dizzy Stun Overlay Indicator -->
+                <div id="stun-indicator" class="hidden absolute top-4 left-1/2 -translate-x-1/2 bg-red-600/90 text-white font-cyber text-sm sm:text-base px-6 py-2 rounded-full border-2 border-yellow-300 animate-pulse-fast shadow-lg">
+                    😵 PENING! TERLANGGAR HALANGAN (2 SAAT)
+                </div>
+                
+                <!-- Mobile Action Touch Controls -->
+                <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center no-print pointer-events-none">
+                    <button id="btn-slide" class="pointer-events-auto bg-cyan-600/80 hover:bg-cyan-500 text-white font-cyber text-base sm:text-lg px-5 py-3 rounded-xl border-2 border-white active:scale-95 shadow-lg">
+                        👇 NUNDUK (SLIDE)
+                    </button>
+                    <button id="btn-jump" class="pointer-events-auto bg-red-600/80 hover:bg-red-500 text-white font-cyber text-base sm:text-lg px-6 py-3 rounded-xl border-2 border-white active:scale-95 shadow-lg">
+                        👆 LOMPAT (JUMP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Instruction -->
+            <div class="text-center text-xs text-slate-400 font-sans">
+                Tekan <kbd class="px-2 py-0.5 bg-slate-800 rounded border border-slate-600 text-cyan-300 font-mono">ATAS / SPACE</kbd> untuk Lompat | <kbd class="px-2 py-0.5 bg-slate-800 rounded border border-slate-600 text-cyan-300 font-mono">BAWAH</kbd> untuk Menunduk. Tangkap 🔑 <strong>Cyber Coin</strong> untuk buka soalan!
+            </div>
+
+            <!-- MODAL CHECKPOINT SOALAN KUIZ -->
+            <div id="quiz-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-3 hidden">
+                <div id="quiz-card" class="cyber-box p-5 sm:p-7 max-w-2xl w-full text-white relative max-h-[92vh] overflow-y-auto">
+                    
+                    <div class="flex justify-between items-center border-b border-cyan-500/40 pb-3 mb-4">
+                        <span class="bg-red-600 text-white font-arcade text-[10px] sm:text-xs px-3 py-1 rounded-full border border-yellow-300">
+                            CHECKPOINT <span id="modal-cp-num">1</span> / 20
+                        </span>
+                        <span id="modal-maqasid-pillar" class="text-yellow-400 font-bold font-cyber text-xs sm:text-sm bg-slate-900 px-3 py-1 rounded-lg border border-yellow-400/40">
+                            MAQASID SYARIAH
+                        </span>
+                    </div>
+
+                    <div class="mb-4">
+                        <p id="modal-question-scenario" class="text-sm sm:text-base font-sans font-semibold text-cyan-100 leading-relaxed bg-slate-950/80 p-4 rounded-xl border border-cyan-500/30">
+                            Soalan akan dimuatkan di sini...
+                        </p>
+                    </div>
+
+                    <div id="modal-options-grid" class="space-y-2.5 mb-4">
+                        <!-- Dynamic Options A-E -->
+                    </div>
+
+                    <div id="modal-feedback" class="hidden p-3.5 rounded-xl text-xs sm:text-sm font-sans font-bold border mb-3">
+                        <!-- Feedback content -->
+                    </div>
+
+                    <button id="btn-next-cp" onclick="resumeRunnerAfterQuiz()" class="hidden w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-cyber text-lg rounded-xl border-2 border-yellow-300 btn-cyber">
+                        TERUSKAN LARIAN KEMBARA ▶
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 4. SKRIN KEDAI PEMBELIAN AYAM GEPUK (STORE ENDING) -->
+        <section id="screen-store" class="hidden p-6 sm:p-8 flex flex-col items-center justify-center text-center min-h-[620px] bg-slate-950 my-auto">
+            <div class="max-w-2xl w-full cyber-box-yellow p-6 sm:p-8 space-y-6">
+                
+                <div class="text-center space-y-1">
+                    <span class="text-5xl block animate-bounce">🍗🔥🌶️</span>
+                    <h1 class="font-cyber text-3xl sm:text-4xl text-yellow-400 glow-yellow uppercase">
+                        RESTORAN AYAM GEPUK CYBER
+                    </h1>
+                    <p class="text-xs text-slate-300 font-sans">
+                        Gunakan <strong>Duit Gepuk (🪙 <span id="store-coins-display">0</span>)</strong> hasil jawapan Maqasid Syariah untuk membeli hidangan anda!
+                    </p>
+                </div>
+
+                <!-- Menu Items List -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-yellow-500/40 flex justify-between items-center">
+                        <div>
+                            <div class="font-cyber text-sm text-yellow-300 font-bold">COMBO LEVEL 100</div>
+                            <div class="text-[11px] text-slate-400">Nasi + Ayam + Kubis + Sambal Pedas</div>
+                        </div>
+                        <button onclick="buyItem('Combo Level 100', 50)" class="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-cyber font-bold text-xs px-3 py-2 rounded-lg border border-white">
+                            50 COINS
+                        </button>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-cyan-500/40 flex justify-between items-center">
+                        <div>
+                            <div class="font-cyber text-sm text-cyan-300 font-bold">EXTRA KUBIS CRISPY</div>
+                            <div class="text-[11px] text-slate-400">Kubis Goreng Rangup Extra</div>
+                        </div>
+                        <button onclick="buyItem('Extra Kubis Crispy', 20)" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-cyber font-bold text-xs px-3 py-2 rounded-lg border border-white">
+                            20 COINS
+                        </button>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-red-500/40 flex justify-between items-center">
+                        <div>
+                            <div class="font-cyber text-sm text-red-300 font-bold">SAMBAL EXTRA PEDAS</div>
+                            <div class="text-[11px] text-slate-400">Sambal Cili Padi Penyet</div>
+                        </div>
+                        <button onclick="buyItem('Sambal Extra Pedas', 15)" class="bg-red-500 hover:bg-red-400 text-white font-cyber font-bold text-xs px-3 py-2 rounded-lg border border-white">
+                            15 COINS
+                        </button>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-purple-500/40 flex justify-between items-center">
+                        <div>
+                            <div class="font-cyber text-sm text-purple-300 font-bold">MINUMAN BOBALICIOUS</div>
+                            <div class="text-[11px] text-slate-400">Air Masak / Boba Penyejuk Pedas</div>
+                        </div>
+                        <button onclick="buyItem('Minuman Bobalicious', 15)" class="bg-purple-500 hover:bg-purple-400 text-white font-cyber font-bold text-xs px-3 py-2 rounded-lg border border-white">
+                            15 COINS
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cart Bought Summary -->
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-700 text-left text-xs font-sans">
+                    <span class="text-cyan-400 font-cyber font-bold block mb-1">🛒 ITEM DIBELI:</span>
+                    <div id="cart-list" class="text-slate-300 font-mono">Belum ada item dibeli.</div>
+                </div>
+
+                <button onclick="showFinalReport()" class="w-full py-4 bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-cyber text-lg sm:text-xl rounded-xl border-2 border-yellow-300 btn-cyber uppercase font-bold">
+                    JANAKAN RESIT & LAPORAN PRESTASI 🧾
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. SKRIN LAPORAN RESIT KEPUTUSAN PRINTABLE -->
+        <section id="screen-result" class="hidden p-6 sm:p-8 bg-slate-950 min-h-[620px] text-white">
+            
+            <div class="max-w-3xl mx-auto print-area bg-slate-900 p-6 rounded-2xl border-4 border-cyan-500 cyber-box space-y-6">
+                
+                <div class="text-center border-b-2 border-dashed border-cyan-500/40 pb-4">
+                    <h2 class="font-cyber text-2xl sm:text-3xl text-yellow-400 glow-yellow">RESTORAN AYAM GEPUK CYBER</h2>
+                    <p class="text-xs font-sans text-slate-300">Resit Laporan Pembelajaran Seni & Maqasid Syariah IPT</p>
+                    <p class="text-[10px] font-mono text-cyan-400 mt-1">TARIKH: <span id="res-date">2026-11-02</span></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-xs font-sans bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div>
+                        <span class="text-slate-400 block font-cyber text-[10px]">NAMA PELAJAR:</span>
+                        <span id="res-name" class="text-sm font-bold text-cyan-300 uppercase block">---</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block font-cyber text-[10px]">KOD KELAS:</span>
+                        <span id="res-class" class="text-sm font-bold text-cyan-300 uppercase block">---</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 text-center font-sans">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-yellow-500/40">
+                        <span class="text-[9px] font-cyber text-slate-400 block mb-1">BAKI DUIT GEPUK</span>
+                        <span id="res-score" class="text-xl sm:text-2xl font-bold text-yellow-400">0</span>
+                        <span class="text-[10px] text-slate-400 block">COINS</span>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-red-500/40">
+                        <span class="text-[9px] font-cyber text-slate-400 block mb-1">JUMLAH PENALTI</span>
+                        <span id="res-mistakes" class="text-xl sm:text-2xl font-bold text-red-400">0</span>
+                        <span class="text-[10px] text-slate-400 block">KESALAHAN (-10m)</span>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-xl border border-green-500/40">
+                        <span class="text-[9px] font-cyber text-slate-400 block mb-1">CHECKPOINT SELESAI</span>
+                        <span id="res-completed-cp" class="text-xl sm:text-2xl font-bold text-green-400">0 / 20</span>
+                        <span class="text-[10px] text-slate-400 block">DISERTAI</span>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-950 rounded-xl border border-cyan-500/40 text-center font-sans">
+                    <span class="text-xs text-slate-400 block font-cyber mb-1">HIDANGAN DIBELI & GRED MAQASID:</span>
+                    <span id="res-grade-status" class="text-base sm:text-lg font-bold text-yellow-300 block">
+                        PEDAS LEVEL 100 (MUMTAZ / CEMERLANG)
+                    </span>
+                </div>
+
+                <div>
+                    <h4 class="font-cyber text-xs text-cyan-400 mb-2">📋 REKOD 20 CHECKPOINT MAQASID:</h4>
+                    <div class="overflow-x-auto bg-slate-950 rounded-xl border border-slate-800 max-h-60 overflow-y-auto">
+                        <table class="w-full text-left font-sans text-xs">
+                            <thead class="bg-slate-800 text-cyan-300 font-cyber text-[9px] sticky top-0">
+                                <tr>
+                                    <th class="p-2 text-center">CP</th>
+                                    <th class="p-2">SENARIO MAQASID SYARIAH</th>
+                                    <th class="p-2 text-center">PENALTI</th>
+                                    <th class="p-2 text-center">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="res-table-body" class="divide-y divide-slate-800 text-slate-200">
+                                <!-- Dynamic 20 rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2 no-print">
+                    <button onclick="restartFullGame()" class="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-cyber text-lg rounded-xl border border-slate-600 btn-cyber">
+                        🔄 MAINKAN SEMULA
+                    </button>
+                    <button onclick="window.print()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-cyber text-lg rounded-xl border-2 border-yellow-300 btn-cyber">
+                        🖨️ CETAK / SIMPAN PDF
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JAVASCRIPT GAME ENGINE -->
+    <script>
+        /* 1. BANK 20 SOALAN SENI & MAQASID SYARIAH (EXACT MATCH SKEMA) */
+        const QUESTION_BANK_FULL = [
+            { id: 1, q: "Seorang pereka kasut mencetak ayat al-Quran pada bahagian tapak kasut yang dipijak dan bersentuhan dengan kotoran atas alasan kebebasan berkarya.", a: "A" },
+            { id: 2, q: "Seorang pereka grafik mengambil ilustrasi berbayar milik artis lain, membuang nama pemiliknya dan menjual semula ilustrasi tersebut tanpa izin.", a: "E" },
+            { id: 3, q: "Seorang pengarah mengarahkan pelakon melakukan aksi berbahaya di bangunan tinggi tanpa peralatan keselamatan demi mendapatkan rakaman yang kelihatan lebih nyata.", a: "B" },
+            { id: 4, q: "Sebuah novel romantik mempromosikan hubungan seksual di luar perkahwinan sebagai amalan yang wajar dicontohi oleh pembaca.", a: "D" },
+            { id: 5, q: "Lirik sebuah lagu mengajak pendengar mengambil dadah dengan mendakwa bahawa keadaan khayal membantu seseorang menjadi lebih kreatif dan mendapat ilham.", a: "C" },
+            { id: 6, q: "Sebuah filem seram mempromosikan pemujaan makhluk halus sebagai cara sebenar mendapatkan perlindungan dan mengajak penonton mengamalkannya.", a: "A" },
+            { id: 7, q: "Seorang pengkarya memasang arca logam yang berat di atas laluan pengunjung walaupun struktur sokongannya tidak stabil dan berisiko runtuh menimpa orang ramai.", a: "B" },
+            { id: 8, q: "Sekumpulan pelukis menghasilkan grafiti pada dinding kedai tanpa kebenaran sehingga pemilik terpaksa menanggung kos membersihkan dan mengecat semula bangunan tersebut.", a: "E" },
+            { id: 9, q: "Sebuah drama bersiri mengangkat kecurangan terhadap pasangan sebagai kejayaan percintaan dan menggalakkan penonton mengabaikan kesetiaan dalam perkahwinan.", a: "D" },
+            { id: 10, q: "Sebuah video muzik mengajak penonton minum arak sehingga mabuk dan menggambarkan kehilangan pertimbangan sebagai pengalaman yang menyeronokkan.", a: "C" },
+            { id: 11, q: "Dalam persembahan seni tubuh, seorang pengkarya sengaja mencederakan dirinya sehingga mengalami pendarahan serius demi menghasilkan persembahan yang dianggap berani.", a: "B" },
+            { id: 12, q: "Seorang pelawak sengaja mempersendakan ibadah solat dan menjadikan bacaan al-Quran sebagai bahan ejekan untuk menghiburkan penonton.", a: "A" },
+            { id: 13, q: "Sebuah galeri menjual lukisan tiruan sebagai karya asli pelukis terkenal dengan menggunakan sijil ketulenan palsu untuk memperdaya pembeli.", a: "E" },
+            { id: 14, q: "Penganjur bengkel seni menggalakkan peserta mengambil bahan yang menyebabkan khayal dan halusinasi kerana mendakwa perubahan persepsi tersebut diperlukan untuk menghasilkan karya luar biasa.", a: "C" },
+            { id: 15, q: "Sebuah filem mempromosikan tindakan memalsukan identiti bapa kandung dalam rekod kelahiran sebagai perbuatan terpuji sehingga asal usul sebenar anak sengaja dikaburkan.", a: "D" },
+            { id: 16, q: "Pereka ruang sebuah dewan persembahan menutup pintu kecemasan dengan panel hiasan demi kecantikan ruang sehingga penonton tidak dapat menggunakannya ketika berlaku kebakaran.", a: "B" },
+            { id: 17, q: "Sebuah pementasan teater mempromosikan hubungan sumbang mahram sebagai bentuk percintaan yang wajar diterima dan dicontohi oleh masyarakat.", a: "D" },
+            { id: 18, q: "Seorang pencipta kandungan menghasilkan video janaan AI yang meniru wajah dan suara pelukis terkenal untuk memperdaya peminat supaya membayar bagi karya yang sebenarnya tidak akan dihantar.", a: "E" },
+            { id: 19, q: "Seorang pengukir mendakwa arca ciptaannya mempunyai kuasa menentukan rezeki, lalu mengajak orang ramai memuja dan meminta pertolongan daripada arca tersebut.", a: "A" },
+            { id: 20, q: "Sebuah komik yang dipasarkan sebagai bahan pendidikan sengaja mengemukakan maklumat palsu sebagai fakta sains serta mengajar pembaca supaya menolak bukti dan semakan fakta.", a: "C" }
+        ];
+
+        const MAQASID_OPTIONS = [
+            { code: "A", label: "Menjejaskan Agama (Hifz ad-Din)" },
+            { code: "B", label: "Menjejaskan Nyawa (Hifz an-Nafs)" },
+            { code: "C", label: "Menjejaskan Akal (Hifz al-'Aql)" },
+            { code: "D", label: "Menjejaskan Keturunan (Hifz an-Nasl)" },
+            { code: "E", label: "Menjejaskan Harta (Hifz al-Mal)" }
+        ];
+
+        /* 2. GAME STATE VARIABLES */
+        let studentName = "";
+        let studentClass = "";
+        let gepukCoins = 0;
+        let currentCheckpointIdx = 0;
+        let timerSeconds = 300; // 5 Minit Total
+        let timerInterval = null;
+        let wrongAttemptsPerCP = new Array(20).fill(0);
+        let cartItems = [];
+
+        /* 3. WEB AUDIO SYNTHESIZER (NO EXTERNAL FILES) */
+        let audioCtx = null;
+        let isMuted = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioCtxClass();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleSound() {
+            isMuted = !isMuted;
+            document.getElementById('btn-sound').textContent = isMuted ? "🔇" : "🔊";
+        }
+
+        function playSound(type) {
+            if (isMuted) return;
+            initAudio();
+            if (!audioCtx) return;
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'jump') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(160, now);
+                osc.frequency.exponentialRampToValueAtTime(480, now + 0.12);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.12);
+            } 
+            else if (type === 'slide') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(140, now + 0.14);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.14);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.14);
+            } 
+            else if (type === 'stun') { // Dizzy Hit Sound
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.linearRampToValueAtTime(80, now + 0.4);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+            else if (type === 'coin') { // Coin Catch Sound
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(987.77, now); // B5
+                osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+            else if (type === 'correct') { // +5 Sound
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((f, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + idx * 0.06);
+                    gain.gain.setValueAtTime(0.18, now + idx * 0.06);
+                    gain.gain.linearRampToValueAtTime(0.01, now + idx * 0.06 + 0.1);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.06);
+                    osc.stop(now + idx * 0.06 + 0.1);
+                });
+            }
+            else if (type === 'wrong') { // -10 Penalty Sound
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.setValueAtTime(100, now + 0.15);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+            else if (type === 'gedepuk') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(90, now);
+                osc.frequency.exponentialRampToValueAtTime(30, now + 0.25);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            }
+        }
+
+        /* 4. AUTO UPPERCASE & FORM VALIDATION */
+        const inputName = document.getElementById('input-student-name');
+        const inputClass = document.getElementById('input-student-class');
+        const btnStart = document.getElementById('btn-start');
+
+        [inputName, inputClass].forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.toUpperCase();
+                btnStart.disabled = !(inputName.value.trim().length >= 2 && inputClass.value.trim().length >= 2);
+            });
+        });
+
+        function goToBriefing() {
+            initAudio();
+            studentName = inputName.value.trim().toUpperCase();
+            studentClass = inputClass.value.trim().toUpperCase();
+
+            document.getElementById('screen-start').classList.add('hidden');
+            document.getElementById('screen-briefing').classList.remove('hidden');
+        }
+
+        /* 5. ISOMETRIC CYBER RUNNER CANVAS ENGINE */
+        const canvas = document.getElementById('runner-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let isGameRunning = false;
+        let isStunned = false;
+        let stunTimer = 0; // 2 saat stun (120 frames at 60fps)
+
+        let playerState = {
+            x: 100,
+            y: 220,
+            w: 36,
+            h: 52,
+            vy: 0,
+            isJumping: false,
+            isSliding: false,
+            slideTimer: 0,
+            animFrame: 0
+        };
+
+        let obstacles = [];
+        let coinsOnTrack = [];
+        let particles = [];
+        let bgScrollX = 0;
+
+        function startGameRunner() {
+            gepukCoins = 0;
+            currentCheckpointIdx = 0;
+            timerSeconds = 300; // 5 Minit
+            wrongAttemptsPerCP.fill(0);
+            cartItems = [];
+
+            document.getElementById('hud-name').textContent = studentName;
+            document.getElementById('hud-class').textContent = studentClass;
+            updateHUD();
+
+            document.getElementById('screen-briefing').classList.add('hidden');
+            document.getElementById('game-hud').classList.remove('hidden');
+            document.getElementById('screen-game').classList.remove('hidden');
+
+            // Start 5-Minute Timer
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (!isGameRunning) return;
+                timerSeconds--;
+                updateTimerDisplay();
+
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    finishRunnerSession();
+                }
+            }, 1000);
+
+            isGameRunning = true;
+            initRunnerControls();
+            requestAnimationFrame(gameLoopRunner);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('hud-timer').textContent = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function updateHUD() {
+            document.getElementById('hud-score').textContent = `🪙 ${gepukCoins}`;
+            document.getElementById('hud-cp').textContent = `${currentCheckpointIdx} / 20`;
+            document.getElementById('coins-caught-count').textContent = `${currentCheckpointIdx} / 20`;
+
+            const locTag = document.getElementById('stage-location-tag');
+            if (currentCheckpointIdx < 5) locTag.textContent = "📍 FASA 1: LORONG CYBER KAMPUS";
+            else if (currentCheckpointIdx < 10) locTag.textContent = "📍 FASA 2: JALAN KOTA NEON SESAK";
+            else if (currentCheckpointIdx < 15) locTag.textContent = "📍 FASA 3: SIMPANG GLITCH & BOBA";
+            else locTag.textContent = "📍 FASA 4: RESTORAN AYAM GEPUK CYBER!";
+        }
+
+        function initRunnerControls() {
+            window.addEventListener('keydown', (e) => {
+                if (!isGameRunning || isStunned) return;
+                if ((e.key === 'ArrowUp' || e.key === ' ') && !playerState.isJumping) {
+                    playerJump();
+                } else if (e.key === 'ArrowDown' && !playerState.isSliding) {
+                    playerSlide();
+                }
+            });
+
+            document.getElementById('btn-jump').onclick = () => { if (!playerState.isJumping && isGameRunning && !isStunned) playerJump(); };
+            document.getElementById('btn-slide').onclick = () => { if (!playerState.isSliding && isGameRunning && !isStunned) playerSlide(); };
+        }
+
+        function playerJump() {
+            playerState.vy = -13.5;
+            playerState.isJumping = true;
+            playSound('jump');
+            createDust(playerState.x, playerState.y + 52);
+        }
+
+        function playerSlide() {
+            playerState.isSliding = true;
+            playerState.slideTimer = 35;
+            playSound('slide');
+        }
+
+        function spawnTrackObjects() {
+            // Spawn Obstacles (Kon, Drone, Trash)
+            if (Math.random() < 0.02 && obstacles.length < 2) {
+                const isHigh = Math.random() < 0.45; // High barrier vs Low cone
+                obstacles.push({
+                    x: canvas.width + 40,
+                    y: isHigh ? 180 : 230,
+                    w: 30,
+                    h: isHigh ? 28 : 34,
+                    type: isHigh ? 'DRONE' : 'CONE'
+                });
+            }
+
+            // Spawn Checkpoint Coin (If less than 20 completed and none on screen)
+            if (currentCheckpointIdx < 20 && coinsOnTrack.length === 0 && Math.random() < 0.015) {
+                coinsOnTrack.push({
+                    x: canvas.width + 80,
+                    y: 200,
+                    w: 32,
+                    h: 32,
+                    pulse: 0
+                });
+            }
+        }
+
+        function createDust(x, y) {
+            for (let i = 0; i < 4; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 3,
+                    vy: (Math.random() - 0.5) * 2,
+                    r: Math.random() * 4 + 2,
+                    alpha: 1
+                });
+            }
+        }
+
+        function triggerStunEffect() {
+            isStunned = true;
+            stunTimer = 120; // 2 saat (120 frames at 60fps)
+            playSound('stun');
+
+            const indicator = document.getElementById('stun-indicator');
+            indicator.classList.remove('hidden');
+
+            const card = document.getElementById('screen-game');
+            card.classList.add('animate-shake');
+            setTimeout(() => card.classList.remove('animate-shake'), 400);
+        }
+
+        function gameLoopRunner() {
+            if (!isGameRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Handle Stun Countdown
+            if (isStunned) {
+                stunTimer--;
+                if (stunTimer <= 0) {
+                    isStunned = false;
+                    document.getElementById('stun-indicator').classList.add('hidden');
+                }
+            } else {
+                bgScrollX += 3;
+            }
+
+            // 1. DRAW ISOMETRIC CYBER BACKGROUND
+            ctx.fillStyle = "#070a12";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Cyber City Skyline (Parallax)
+            ctx.fillStyle = "#0f172a";
+            for (let i = 0; i < 12; i++) {
+                let bx = (i * 90 - bgScrollX * 0.2) % (canvas.width + 100);
+                if (bx < -90) bx += canvas.width + 100;
+                ctx.fillRect(bx, 80, 65, 170);
+                // Windows glow
+                ctx.fillStyle = "#06b6d4";
+                ctx.fillRect(bx + 15, 100, 8, 8);
+                ctx.fillRect(bx + 35, 140, 8, 8);
+                ctx.fillStyle = "#0f172a";
+            }
+
+            // Isometric Ground Highway Grid
+            const groundY = 264;
+            ctx.fillStyle = "#1e1b4b";
+            ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
+
+            // Neon Highway Stripes
+            ctx.strokeStyle = "#06b6d4";
+            ctx.lineWidth = 3;
+            ctx.setLineDash([25, 20]);
+            ctx.lineDashOffset = -bgScrollX * 2;
+            ctx.beginPath();
+            ctx.moveTo(0, groundY + 28);
+            ctx.lineTo(canvas.width, groundY + 28);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 2. PLAYER PHYSICS & DRAWING
+            playerState.animFrame++;
+
+            if (!isStunned) {
+                if (playerState.isJumping) {
+                    playerState.y += playerState.vy;
+                    playerState.vy += 0.7;
+
+                    if (playerState.y >= 212) {
+                        playerState.y = 212;
+                        playerState.isJumping = false;
+                        playerState.vy = 0;
+                        createDust(playerState.x, playerState.y + 52);
+                    }
+                }
+
+                if (playerState.isSliding) {
+                    playerState.slideTimer--;
+                    playerState.h = 28;
+                    if (playerState.slideTimer <= 0) {
+                        playerState.isSliding = false;
+                        playerState.h = 52;
+                    }
+                } else {
+                    playerState.h = 52;
+                }
+            }
+
+            // Draw Player Sprite (Cyber Runner)
+            ctx.save();
+            ctx.translate(playerState.x, playerState.y);
+
+            if (isStunned) {
+                // Dizzy Player Rendering
+                ctx.fillStyle = "#ef4444";
+                ctx.fillRect(0, 10, 36, 42);
+                ctx.fillStyle = "#facc15";
+                ctx.font = "16px sans-serif";
+                ctx.fillText("💫😵", -4, -10);
+            } else if (playerState.isSliding) {
+                ctx.fillStyle = "#06b6d4";
+                ctx.fillRect(0, 24, 46, 24);
+                ctx.fillStyle = "#facc15";
+                ctx.fillRect(34, 18, 14, 10);
+            } else {
+                // Cyber Runner Body
+                ctx.fillStyle = "#facc15"; // Helmet
+                ctx.fillRect(6, 0, 24, 10);
+                ctx.fillStyle = "#06b6d4"; // Visor
+                ctx.fillRect(10, 10, 20, 12);
+                ctx.fillStyle = "#ec4899"; // Cyber Jacket
+                ctx.fillRect(4, 22, 28, 20);
+                ctx.fillStyle = "#3b82f6"; // Legs
+                let legAnim = Math.sin(playerState.animFrame * 0.3) * 9;
+                ctx.fillRect(6, 42, 9, 10 + legAnim);
+                ctx.fillRect(20, 42, 9, 10 - legAnim);
+            }
+            ctx.restore();
+
+            // 3. OBSTACLES LOGIC
+            if (!isStunned) spawnTrackObjects();
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                if (!isStunned) obs.x -= 5.5;
+
+                // Draw Obstacle
+                if (obs.type === 'CONE') {
+                    ctx.fillStyle = "#ef4444";
+                    ctx.beginPath();
+                    ctx.moveTo(obs.x + obs.w/2, obs.y);
+                    ctx.lineTo(obs.x + obs.w, obs.y + obs.h);
+                    ctx.lineTo(obs.x, obs.y + obs.h);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = "#06b6d4"; // Cyber Drone Barrier
+                    ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+                    ctx.fillStyle = "#facc15";
+                    ctx.fillText("⚡", obs.x + 8, obs.y + 18);
+                }
+
+                // Collision Detection -> Trigger 2s Dizzy Stun!
+                if (
+                    playerState.x < obs.x + obs.w &&
+                    playerState.x + playerState.w > obs.x &&
+                    playerState.y < obs.y + obs.h &&
+                    playerState.y + playerState.h > obs.y
+                ) {
+                    obstacles.splice(i, 1);
+                    triggerStunEffect();
+                    continue;
+                }
+
+                if (obs.x < -40) obstacles.splice(i, 1);
+            }
+
+            // 4. CHECKPOINT COIN LOGIC (Must catch coin to get question!)
+            for (let i = coinsOnTrack.length - 1; i >= 0; i--) {
+                let coin = coinsOnTrack[i];
+                if (!isStunned) coin.x -= 5.5;
+                coin.pulse += 0.1;
+
+                // Draw Cyber G-Coin Emblem
+                ctx.save();
+                ctx.translate(coin.x, coin.y + Math.sin(coin.pulse) * 4);
+                ctx.fillStyle = "#facc15";
+                ctx.beginPath();
+                ctx.arc(16, 16, 16, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = "#070a12";
+                ctx.font = "bold 12px Orbitron";
+                ctx.fillText("🔑", 8, 22);
+                ctx.restore();
+
+                // Collision with Coin -> Open Checkpoint Quiz Modal!
+                if (
+                    playerState.x < coin.x + coin.w &&
+                    playerState.x + playerState.w > coin.x &&
+                    playerState.y < coin.y + coin.h &&
+                    playerState.y + playerState.h > coin.y
+                ) {
+                    playSound('coin');
+                    coinsOnTrack.splice(i, 1);
+                    isGameRunning = false;
+                    triggerCheckpointQuizModal();
+                    return;
+                }
+
+                if (coin.x < -40) coinsOnTrack.splice(i, 1);
+            }
+
+            // Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.04;
+                ctx.fillStyle = `rgba(6, 182, 212, ${Math.max(0, p.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                if (p.alpha <= 0) particles.splice(i, 1);
+            }
+
+            requestAnimationFrame(gameLoopRunner);
+        }
+
+        /* 6. CHECKPOINT QUIZ MODAL LOGIC (EXACT 20 QUESTIONS) */
+        function triggerCheckpointQuizModal() {
+            playSound('gedepuk');
+            const qData = QUESTION_BANK_FULL[currentCheckpointIdx];
+
+            document.getElementById('modal-cp-num').textContent = currentCheckpointIdx + 1;
+            document.getElementById('modal-question-scenario').textContent = `${currentCheckpointIdx + 1}. ${qData.q}`;
+
+            const feedback = document.getElementById('modal-feedback');
+            feedback.className = "hidden p-3.5 rounded-xl text-xs sm:text-sm font-sans font-bold border mb-3";
+            feedback.textContent = "";
+
+            document.getElementById('btn-next-cp').classList.add('hidden');
+
+            const container = document.getElementById('modal-options-grid');
+            container.innerHTML = "";
+
+            MAQASID_OPTIONS.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "opt-btn w-full text-left p-3.5 bg-slate-950 hover:bg-slate-900 border-2 border-slate-700 hover:border-cyan-400 rounded-xl text-xs sm:text-sm font-sans text-slate-100 transition-all flex items-center justify-between cursor-pointer";
+                btn.innerHTML = `
+                    <span class="font-bold text-cyan-400 font-cyber text-sm">${opt.code}. ${opt.label}</span>
+                    <span class="text-xs text-slate-500 font-mono">►</span>
+                `;
+                btn.onclick = () => checkQuizAnswer(opt.code, qData.a, btn);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        }
+
+        function checkQuizAnswer(selectedCode, correctCode, btnElement) {
+            const feedback = document.getElementById('modal-feedback');
+
+            if (selectedCode === correctCode) {
+                playSound('correct');
+                playSound('gedepuk');
+
+                gepukCoins += 5; // +5 Markah/Duit Gepuk
+                updateHUD();
+
+                btnElement.className = "w-full text-left p-3.5 bg-green-950/90 border-2 border-green-500 rounded-xl text-xs sm:text-sm font-sans text-green-200 font-bold flex items-center justify-between";
+
+                document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+
+                feedback.className = "p-3.5 rounded-xl text-xs sm:text-sm font-sans font-bold bg-green-950/90 border-2 border-green-500 text-green-300 mb-3 block";
+                feedback.innerHTML = `
+                    <div class="text-green-400 font-cyber text-base">🎉 TAHNIAH! JAWAPAN TEPAT (+5 DUIT GEPUK)</div>
+                    <div>Syariah memelihara prinsip ini demi kemaslahatan hakiki manusia.</div>
+                `;
+
+                document.getElementById('btn-next-cp').classList.remove('hidden');
+
+            } else {
+                playSound('wrong');
+
+                wrongAttemptsPerCP[currentCheckpointIdx]++;
+                gepukCoins -= 10; // Penalti -10 Markah/Duit Gepuk
+                updateHUD();
+
+                const card = document.getElementById('quiz-card');
+                card.classList.add('animate-shake');
+                setTimeout(() => card.classList.remove('animate-shake'), 350);
+
+                btnElement.disabled = true;
+                btnElement.className = "w-full text-left p-3.5 bg-red-950/80 border-2 border-red-500 rounded-xl text-xs sm:text-sm font-sans text-red-300 opacity-60 cursor-not-allowed flex items-center justify-between";
+
+                feedback.className = "p-3.5 rounded-xl text-xs sm:text-sm font-sans font-bold bg-red-950/90 border-2 border-red-500 text-red-300 mb-3 block";
+                feedback.textContent = `❌ SALAH! PENALTI -10 DUIT GEPUK! Sila analisis dan pilih Tiang Maqasid yang betul! (Salah: ${wrongAttemptsPerCP[currentCheckpointIdx]}x)`;
+            }
+        }
+
+        function resumeRunnerAfterQuiz() {
+            document.getElementById('quiz-modal').classList.add('hidden');
+            currentCheckpointIdx++;
+            updateHUD();
+
+            if (currentCheckpointIdx >= 20) {
+                finishRunnerSession();
+            } else {
+                isGameRunning = true;
+                requestAnimationFrame(gameLoopRunner);
+            }
+        }
+
+        function finishRunnerSession() {
+            isGameRunning = false;
+            if (timerInterval) clearInterval(timerInterval);
+
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('game-hud').classList.add('hidden');
+            document.getElementById('screen-store').classList.remove('hidden');
+
+            document.getElementById('store-coins-display').textContent = gepukCoins;
+        }
+
+        /* 7. STORE & PURCHASING SYSTEM */
+        function buyItem(itemName, cost) {
+            if (gepukCoins >= cost) {
+                gepukCoins -= cost;
+                cartItems.push(itemName);
+                playSound('coin');
+                document.getElementById('store-coins-display').textContent = gepukCoins;
+
+                const cartDiv = document.getElementById('cart-list');
+                cartDiv.textContent = cartItems.join(', ');
+            } else {
+                playSound('wrong');
+                alert("Duit Gepuk anda tidak mencukupi untuk membeli item ini!");
+            }
+        }
+
+        function showFinalReport() {
+            document.getElementById('screen-store').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('res-date').textContent = today;
+
+            document.getElementById('res-name').textContent = studentName;
+            document.getElementById('res-class').textContent = studentClass;
+            document.getElementById('res-score').textContent = gepukCoins;
+
+            const totalWrong = wrongAttemptsPerCP.reduce((a, b) => a + b, 0);
+            document.getElementById('res-mistakes').textContent = totalWrong;
+            document.getElementById('res-completed-cp').textContent = `${currentCheckpointIdx} / 20`;
+
+            const gradeElem = document.getElementById('res-grade-status');
+            const boughtText = cartItems.length > 0 ? cartItems.join(', ') : 'Tiada Item Dibeli';
+
+            if (gepukCoins >= 70) {
+                gradeElem.textContent = `🔥 MUMTAZ! Hidangan Dibeli: [${boughtText}]`;
+                gradeElem.className = "text-base sm:text-lg font-bold text-yellow-300 block";
+            } else if (gepukCoins >= 40) {
+                gradeElem.textContent = `🌶️ JAYYID JIDDAN! Hidangan Dibeli: [${boughtText}]`;
+                gradeElem.className = "text-base sm:text-lg font-bold text-cyan-400 block";
+            } else {
+                gradeElem.textContent = `🥣 PERLU REVISI MAQASID SYARIAH! [${boughtText}]`;
+                gradeElem.className = "text-base sm:text-lg font-bold text-red-400 block";
+            }
+
+            const tbody = document.getElementById('res-table-body');
+            tbody.innerHTML = "";
+
+            QUESTION_BANK_FULL.forEach((q, idx) => {
+                if (idx < currentCheckpointIdx) {
+                    const tr = document.createElement('tr');
+                    const wrongCount = wrongAttemptsPerCP[idx];
+
+                    tr.innerHTML = `
+                        <td class="p-2 text-center font-cyber text-yellow-400">${idx + 1}</td>
+                        <td class="p-2 font-sans truncate max-w-[260px]" title="${q.q}">${q.q}</td>
+                        <td class="p-2 text-center text-red-400 font-bold">-${wrongCount * 10}m (${wrongCount}x)</td>
+                        <td class="p-2 text-center font-bold text-green-400">SELESAI ✓</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            });
+        }
+
+        function restartFullGame() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-start').classList.remove('hidden');
+            
+            inputName.value = "";
+            inputClass.value = "";
+            btnStart.disabled = true;
+        }
+    </script>
+</body>
+</html>
